@@ -1,0 +1,27 @@
+# Lockfiles and auto-save files
+\#*\#
+*/\#*\#
+.\#*
+*/.\#*
+*~
+*/*~
+
+# Output files from demos
+demo/*.png
+demo/profile.out
+
+# Rendered sources
+include/algmoid.pxd
+include/algmoid_8_350.pxd
+include/algmoid_8_350.h
+algmoid/_algmoid.pyx
+
+# Files from compilation
+build/
+*.pyc
+*/*.pyc
+*/*/*.pyc
+*/*.html
+*/*.o
+*/*.mod
+*/*.so

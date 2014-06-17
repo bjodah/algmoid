@@ -17,7 +17,6 @@ else:
     from pycompilation.dist import CleverExtension
     subsd =  {
         'FUNCS': ('sigmoid',), #'sigmoid Dsigmoid D2sigmoid asigmoid Dasigmoid exps Dexps logs Dlogs'.split(),
-        'POWER_SPAN': (2, 9)
     }
     cmdclass_ = {'build_ext': clever_build_ext}
     def _render(build_temp, full_ext_path, ext, tmpl, out):
@@ -28,24 +27,27 @@ else:
 
     ext_modules_ = [
         CleverExtension(
-            name_+"._algmoid_8_350",
-            sources=[name_+'/_algmoid_8_350'+'_template.pyx'],
+            name_+"._algmoid"+mod,
+            sources=[name_+'/_algmoid'+mod+'_template.pyx'],
             language='c++',
             include_dirs=['./include', numpy.get_include()],
             template_regexps=[
                 (r'^(\w+)_template.(\w+)$', r'\1.\2', subsd),
             ],
+            pycompilation_compile_kwargs={
+                'std': 'c++0x',
+            },
             pycompilation_link_kwargs={
                 'libs': ['m']
             },
             build_callbacks=[
-                (_render, ('./include/algmoid_8_350_template.pxd',
-                           './include/algmoid_8_350.pxd'), {}),
-                (_render, ('./include/algmoid_8_350_template.h',
-                           './include/algmoid_8_350.h'), {})
+                (_render, ('./include/algmoid'+mod+'_template.h',
+                           './include/algmoid'+mod+'.h'), {}),
+                (_render, ('./include/algmoid'+mod+'_template.pxd',
+                           './include/algmoid'+mod+'.pxd'), {}),
             ],
             logger=True,
-        )
+        ) for mod in ('',) #('', '_8_350')
     ]
 
 

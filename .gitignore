@@ -11,6 +11,7 @@ demo/*.png
 demo/profile.out
 
 # Rendered sources
+include/algmoid.h
 include/algmoid.pxd
 include/algmoid_8_350.pxd
 include/algmoid_8_350.h

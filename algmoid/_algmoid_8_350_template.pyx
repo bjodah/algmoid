@@ -5,8 +5,16 @@ cimport numpy as cnp
 import numpy as np
 import cython
 
+# Work-around for non-type tempalte arguments
+ctypedef void * eight "8"
+ctypedef void * threehundredfifty "350"
+
+
 %for func in FUNCS:
-from algmoid_8_350 cimport ${func}_8_350 as _${func}
+#from algmoid_8_350 cimport ${func}_8_350 as _${func}
+
+from algmoid cimport ${func}_tmpl as c_${func}_tmpl
+
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
@@ -14,7 +22,7 @@ cdef ${func}_arr_8_350(double[:] x):
     cdef int i
     cdef cnp.ndarray[cnp.float64_t, ndim=1] out = np.empty(x.size)
     for i in range(x.size):
-        out[i] = _${func}(x[i])
+        out[i] = c_${func}_tmpl[double, eight, threehundredfifty](x[i])
     return out
 
 def ${func}(x):
@@ -27,5 +35,5 @@ def ${func}(x):
             return ${func}_arr_8_350(
                 as_arr.flatten()).reshape(as_arr.shape)
         except:
-            return _${func}(x)
+            return c_${func}_tmpl[double, eight, threehundredfifty](x)
 %endfor

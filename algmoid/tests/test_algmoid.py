@@ -14,7 +14,7 @@ def test_sigmoid():
     assert np.allclose(sigmoid(np.array(
         [-9, -5, 5, 9]), n=6, lim=350), [-9, -5, 5, 9], atol=1e-7)
 
-from algmoid._algmoid_8_350 import sigmoid as sigmoid_8_350
+from algmoid._algmoid import sigmoid_8_350
 
 def test_sigmoid_8_350():
     assert abs(5 - sigmoid_8_350(5)) < 1e-3

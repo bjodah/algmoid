@@ -27,8 +27,8 @@ else:
 
     ext_modules_ = [
         CleverExtension(
-            name_+"._algmoid"+mod,
-            sources=[name_+'/_algmoid'+mod+'_template.pyx'],
+            name_+"._algmoid",
+            sources=[name_+'/_algmoid_template.pyx'],
             language='c++',
             include_dirs=['./include', numpy.get_include()],
             template_regexps=[
@@ -41,13 +41,13 @@ else:
                 'libs': ['m']
             },
             build_callbacks=[
-                (_render, ('./include/algmoid'+mod+'_template.h',
-                           './include/algmoid'+mod+'.h'), {}),
-                (_render, ('./include/algmoid'+mod+'_template.pxd',
-                           './include/algmoid'+mod+'.pxd'), {}),
+                (_render, ('./include/algmoid_template.h',
+                           './include/algmoid.h'), {}),
+                (_render, ('./include/algmoid_template.pxd',
+                           './include/algmoid.pxd'), {}),
             ],
             logger=True,
-        ) for mod in ('', '_8_350')
+        )
     ]
 
 

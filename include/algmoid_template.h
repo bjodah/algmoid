@@ -1,4 +1,7 @@
-// -*- mode: c++-mode -*-
+<%doc>
+   This is a Mako (docs.makotemplates.org/) templated C++-header file
+</%doc>
+// -*- mode: c++ -*-
 #ifndef _6RHPX737NVCOLB22EZI3GBEYCI
 #define _6RHPX737NVCOLB22EZI3GBEYCI
 
@@ -12,6 +15,11 @@ namespace algmoid{
 using std::pow;
 using std::log;
 
+
+<%!
+    import re
+%>
+
 %for name, expr in [\
     ('sigmoid', 'x*pow(pow(x/static_cast<T>(lim), n) + 1, -1.0/n)'),\
     ('Dsigmoid', 'pow(pow(x/static_cast<T>(lim), n) + 1, -1 - 1.0/n)'),\
@@ -19,19 +27,19 @@ using std::log;
     ('Dsigmoid_over_sigmoid', '1/(x*(pow(x/static_cast<T>(lim), n) + 1))'),\
     ('asigmoid', 'x*pow(-pow(x/static_cast<T>(lim), n) + 1, -1.0/n)'),\
     ('Dasigmoid', 'pow(-pow(x/static_cast<T>(lim), n) + 1, -1 - 1.0/n)'),\
-    ('exps', 'exp(sigmoid<n, lim>(x))'),\
-    ('logs', 'asigmoid<n, lim>(log(x))'),\
-    ('Dexps', 'exps<n, lim>(x)*Dsigmoid<n, lim>(x)'),\
-    ('Dlogs', 'Dasigmoid<n, lim>(log(x))/x'),\
+    ('exps', 'exp(sigmoid_tmpl<T, n, lim>[x])'),\
+    ('logs', 'asigmoid_tmpl<T, n, lim>[log(x)]'),\
+    ('Dexps', 'exps_tmpl<T, n, lim>[x]*Dsigmoid_tmpl<T, n, lim>[x]'),\
+    ('Dlogs', 'Dasigmoid_tmpl<T, n, lim>[log(x)]/x'),\
     ]:
 // ${name}:
 template <typename T, int n, int lim>
 T ${name}_tmpl(T x){
-    return ${expr};
+    return ${re.sub("_tmpl<T, n, lim>\[(.*?)\]", r"_tmpl<T, n, lim>(\1)", expr)};
 }
 template <typename T>
-T ${name}(T x, int n, int lim){
-    return ${expr.replace('<n, lim>(x)', '(x, n, lim)')};
+T ${name}(T x, int n, T lim){
+    return ${re.sub(r"_tmpl<T, n, lim>\[(.*?)\]", r"<T>(\1, n, lim)", expr).replace('static_cast<T>(lim)', 'lim')};
 }
 
 %endfor

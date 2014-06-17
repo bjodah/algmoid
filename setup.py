@@ -15,8 +15,8 @@ else:
     import numpy
     from pycompilation.dist import clever_build_ext
     from pycompilation.dist import CleverExtension
-    subsd =  {
-        'FUNCS': ('sigmoid',), #'sigmoid Dsigmoid D2sigmoid asigmoid Dasigmoid exps Dexps logs Dlogs'.split(),
+    subsd =  { # ('sigmoid',),
+        'FUNCS': 'sigmoid Dsigmoid D2sigmoid asigmoid Dasigmoid exps Dexps logs Dlogs'.split(),
     }
     cmdclass_ = {'build_ext': clever_build_ext}
     def _render(build_temp, full_ext_path, ext, tmpl, out):
@@ -47,7 +47,7 @@ else:
                            './include/algmoid'+mod+'.pxd'), {}),
             ],
             logger=True,
-        ) for mod in ('',) #('', '_8_350')
+        ) for mod in ('', '_8_350')
     ]
 
 

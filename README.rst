@@ -7,9 +7,7 @@ algmoid
 "algmoid" is a C++11 implementation (including native Python_ bindings) 
 of algebraic sigmoidal_ functions of form:
 
-```
-    s(x) := x*((x/lim)**n + 1)**(-1/n)
-```
+`s(x) := x*((x/lim)**n + 1)**(-1/n)`
 
 Feel free to enhance modify and make pull request at github to the algmoid_ repository.
 

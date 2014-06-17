@@ -6,12 +6,12 @@ import numpy as np
 import cython
 
 # Work-around for non-type tempalte arguments
-ctypedef void * eight "8"
-ctypedef void * threehundredfifty "350"
+cdef extern from *:
+    ctypedef void * eight "8"
+    ctypedef void * threehundredfifty "350"
 
 
 %for func in FUNCS:
-#from algmoid_8_350 cimport ${func}_8_350 as _${func}
 
 from algmoid cimport ${func}_tmpl as c_${func}_tmpl
 

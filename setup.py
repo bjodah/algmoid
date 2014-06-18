@@ -5,7 +5,7 @@ import sys
 from distutils.core import setup
 
 name_ = 'algmoid'
-version_ = '0.0.1'
+version_ = '0.0.2-dev'
 
 if '--help'in sys.argv[1:] or sys.argv[1] in (
         '--help-commands', 'egg_info', 'clean', '--version'):

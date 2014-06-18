@@ -36,6 +36,7 @@ else:
             ],
             pycompilation_compile_kwargs={
                 'std': 'c++0x',
+                'options': ['pic', 'warn', 'fast']
             },
             pycompilation_link_kwargs={
                 'libs': ['m']

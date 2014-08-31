@@ -5,7 +5,7 @@ import sys
 from distutils.core import setup
 
 name_ = 'algmoid'
-version_ = '0.0.2-dev'
+version_ = '0.0.2'
 
 if '--help'in sys.argv[1:] or sys.argv[1] in (
         '--help-commands', 'egg_info', 'clean', '--version'):
@@ -13,20 +13,17 @@ if '--help'in sys.argv[1:] or sys.argv[1] in (
     ext_modules_ = []
 else:
     import numpy
-    from pycompilation.dist import clever_build_ext
-    from pycompilation.dist import CleverExtension
-    subsd =  { # ('sigmoid',),
+    from pycodeexport.dist import pce_build_ext, PCEExtension
+    subsd =  {
         'FUNCS': 'sigmoid Dsigmoid D2sigmoid asigmoid Dasigmoid exps Dexps logs Dlogs'.split(),
     }
-    cmdclass_ = {'build_ext': clever_build_ext}
+    cmdclass_ = {'build_ext': pce_build_ext}
     def _render(build_temp, full_ext_path, ext, tmpl, out):
-        print(build_temp)
-        print(full_ext_path)
-        from pycompilation.util import render_mako_template_to
+        from pycodeexport.util import render_mako_template_to
         render_mako_template_to(tmpl, out, subsd)
 
     ext_modules_ = [
-        CleverExtension(
+        PCEExtension(
             name_+"._algmoid",
             sources=[name_+'/_algmoid_template.pyx'],
             language='c++',

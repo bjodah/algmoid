@@ -4,7 +4,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import numpy as np
 import sympy
 
-from algmoid import sigmoid, Dsigmoid, asigmoid, Dasigmoid
+from algmoid import *
 from algmoid._algmoid import sigmoid_8_350
 
 
@@ -30,9 +30,16 @@ ref = {
     'Dasigmoid': _get_asigm(x, n, lim).diff(x).simplify(),
 }
 
+ref['exps'] = sympy.exp(ref['sigmoid'])
+ref['logs'] = ref['asigmoid'].subs({x: sympy.log(x)})
+ref['Dexps'] = ref['exps'].diff(x).simplify()
+ref['Dlogs'] = ref['logs'].diff(x).simplify()
 
 def check(cb, vals):
-    return abs(cb(*vals) - ref[cb.__name__].subs(dict(zip(symbs, vals)))) < 1e-15
+    deviation = abs(cb(*vals) - ref[cb.__name__].subs(dict(zip(symbs, vals))).n(18))
+    print(cb(*vals))
+    print(deviation)
+    return deviation < 1e-13
 
 
 def test_sigmoid():
@@ -55,10 +62,20 @@ def test_asigmoid():
     assert check(asigmoid, [5, 7, 11])
     assert abs(asigmoid(sigmoid(5, 7, 11), 7, 11) - 5) < 1e-15
 
-
 def test_Dasigmoid():
     assert check(Dasigmoid, [5, 7, 11])
 
+def test_exps():
+    assert check(exps, [5, 7, 11])
+
+def test_Dexps():
+    assert check(Dexps, [5, 7, 11])
+
+def test_logs():
+    assert check(logs, [5, 7, 11])
+
+def test_Dlogs():
+    assert check(Dlogs, [5, 7, 11])
 
 
 def test_sigmoid_8_350():
@@ -73,4 +90,5 @@ def test_sigmoid_8_350():
 
 
 if __name__ == '__main__':
-    print('\n'.join([k+': '+sympy.latex(v) for k,v in ref.items()]))
+    for cb in (sympy.latex, str):
+        print(',\n'.join(["'"+k+"': '"+ cb(v) +"'" for k,v in ref.items()]))
